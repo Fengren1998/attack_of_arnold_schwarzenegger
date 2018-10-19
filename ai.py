@@ -67,7 +67,7 @@ def tree_search(problem, fringe):
         print('Path Cost: ' + str(node.path_cost))
         print('Action: ' + str(node.action))
         print('...')
-        input()
+        #input()
 
         if goal_test(node.state) == True:
             return solution(node)

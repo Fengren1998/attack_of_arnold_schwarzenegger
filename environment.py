@@ -44,3 +44,9 @@ class State:
         self.connor = Entity(1)
         self.terminator = Entity(2)
         self.functions = ['attack', 'defend']
+
+    def agent_action(self, action):
+        if action == 'attack':
+            self.connor.attack(self.terminator)
+        else:
+            self.connor.defend(self.terminator)
