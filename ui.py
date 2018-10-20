@@ -1,5 +1,5 @@
 from environment import State
-from utils import Fringe, Queue
+from utils import Queue
 from ai import tree_search
 import tkinter as tk
 from tkinter import ttk

@@ -52,6 +52,4 @@ class Queue:
 
     def ranged_list(self):
         list = self.queue
-        for x in range(self.size()):
-            list.append(self.queue[self.head + x])
         return list

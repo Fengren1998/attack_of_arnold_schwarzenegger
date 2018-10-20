@@ -1,5 +1,5 @@
 from environment import State
-from utils import Node, Fringe, Queue
+from utils import Node, Queue
 
 def goal_test(state):
     state.connor.check_dead()
@@ -39,9 +39,6 @@ def expand(node, problem):
         s.depth = node.depth + 1
         successors.append(s)
         node.children.append(s)
-    #for x in range(len(successors)):
-    #    print('Successor: ' + str(successors[x].action))
-    print(node.children)
     return successors
 
 def solution(node):
@@ -53,71 +50,50 @@ def solution(node):
     return action_sequence
 
 def bfs(problem, fringe):
-    initial_node = Node(problem)
-    fringe.insert(initial_node)
+    if len(fringe.queue) <= 0:
+        initial_node = Node(problem)
+        fringe.insert(initial_node)
 
-    solution_found = False
-    while solution_found == False:
-        if fringe.head == None:
-            return None
-        node = fringe.pop()
+    node = fringe.pop()
 
-        print('Connor: ' + str(node.state.connor.hp))
-        print('Arnold: ' + str(node.state.terminator.hp))
-        print('Arnold Defense: ' + str(node.state.terminator.defense))
-        print('Depth: ' + str(node.depth))
-        print('Path Cost: ' + str(node.path_cost))
-        print('Action: ' + str(node.action))
-        print('...')
-        #input()
-
-        if goal_test(node.state) == True:
-            return solution(node)
-        else:
-            if node.state.connor.death == False:
-                fringe.insert_all(expand(node, problem))
+    if goal_test(node.state) == True:
+        return True, solution(node), node
+    else:
+        if node.state.connor.death == False:
+            fringe.insert_all(expand(node, problem))
+        return False, fringe, node
 
 def ids(problem, fringe, next_gen, depth):
-    initial_node = Node(problem)
-    fringe.insert(initial_node)
+    if len(fringe.queue) <= 0:
+        initial_node = Node(problem)
+        fringe.insert(initial_node)
 
-    solution_found = False
-    while solution_found == False:
-        if fringe.head == None:
-            return None
-        node = fringe.get_last()
+    node = fringe.get_last()
 
+    if node.depth < depth:
+        if len(node.children) > 0:
+            for child in node.children:
+                if child not in fringe.ranged_list():
+                    node = fringe.pop_last()
 
-        if node.depth < depth:
-            if len(node.children) > 0:
-                for child in node.children:
-                    if child not in fringe.ranged_list():
-                        node = fringe.pop_last()
-                        print(node)
-                        if goal_test(node.state) == True:
-                            return solution(node)
-            elif len(fringe.queue) <= 0:
-                depth += depth
-                if len(next_gen) > 0:
-                    for x in range(len(next_gen)):
-                        fringe.insert(next_gen.pop())
-            else:
-                fringe.insert_all(expand(node, problem))
-        elif node.depth == depth:
-            node = fringe.pop_last()
-            next_gen.insert(node)
-            if goal_test(node.state) == True:
-                return solution(node)
+                    if goal_test(node.state) == True:
+                        return True, solution(node), node, depth, next_gen
 
-        print('Connor: ' + str(node.state.connor.hp))
-        print('Arnold: ' + str(node.state.terminator.hp))
-        print('Arnold Defense: ' + str(node.state.terminator.defense))
-        print('Depth: ' + str(node.depth))
-        print('Path Cost: ' + str(node.path_cost))
-        print('Action: ' + str(node.action))
-        print('...')
-        input()
-
+                    return False, fringe, node, depth, next_gen
+        elif len(fringe.queue) <= 0:
+            if len(next_gen) > 0:
+                for x in range(len(next_gen)):
+                    fringe.insert(next_gen.pop())
+                    return False, fringe, node, depth, next_gen
+        else:
+            fringe.insert_all(expand(node, problem))
+            return False, fringe, node, depth, next_gen
+    elif node.depth == depth:
+        node = fringe.pop_last()
+        next_gen.insert(node)
+        if goal_test(node.state) == True:
+            return True, solution(node), node, depth, next_gen
+        return False, fringe, node, depth, next_gen
 
 def tree_search(problem, fringe, initial=False):
     if initial == True:
