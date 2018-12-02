@@ -1,0 +1,7 @@
+Dec. 1, 2018
+1. [DONE] Evaluator Function of Greedy Best FS: based on Terminator HP
+2. [DONE] Bubble Sort for a basic sort
+3. [DONE] Actual Greedy Best FS using the Evaluator Function
+4. [DONE] Functions and stuff for A*
+
+ez
