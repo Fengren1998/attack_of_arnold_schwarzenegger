@@ -16,13 +16,17 @@ if __name__ == '__main__':
     saved_input = None
     user_input = None
 
+    # Manual algorithm switching
+    manual = False
+
     # While the solution has not been found, do all of this
     solved = False
     while solved == False:
         # saved_input to automate the entire thing for long processes
-        if saved_input == None:
-            user_input = input('"1" for BFS, "2" for IDS, "3" for Greedy BFS, "4" for A* Search: ')
-            saved_input = user_input
+        if saved_input == None and manual == False:
+            saved_input = input('"1" for BFS, "2" for IDS, "3" for Greedy BFS, "4" for A* Search: ')
+        elif manual == True:
+            saved_input = input('"1" for BFS, "2" for IDS, "3" for Greedy BFS, "4" for A* Search: ')
 
         # Do the chosen input
         if saved_input == '1':
