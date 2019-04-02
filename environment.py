@@ -57,7 +57,7 @@ class State:
     def __init__(self):
         # Initialize initial state
         self.connor = Entity(1)
-        self.terminator = Entity(2)
+        self.terminator = Entity(20)
 
         # Initialize the functions, important for the successor_function function for the AI
         self.functions = ['attack', 'defend']

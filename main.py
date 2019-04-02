@@ -12,6 +12,7 @@ if __name__ == '__main__':
     fringe = Queue()
     next_gen = Queue()
     depth = 3
+    count = 0
 
     saved_input = None
     user_input = None
@@ -46,8 +47,11 @@ if __name__ == '__main__':
         print('Path Cost: ' + str(node.path_cost))
         print('Greed Cost: ' + str(node.greed_cost))
         print('Action: ' + str(node.action))
+        print('Count: ' + str(count))
         print('...')
 
+
+        count +=1
         # If the solution was found, present it and stop finding the solution
         if solution == True:
             solved = True
